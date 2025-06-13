@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Text to Image Generator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🖼️ Text to Image Generator</h1>
+    <form id="generateForm">
+      <input type="text" id="prompt" placeholder="Masukkan prompt..." required />
+      <select id="style">
+        <option value="default">Default</option>
+        <option value="ghibli">Ghibli</option>
+        <option value="cyberpunk">Cyberpunk</option>
+        <option value="anime">Anime</option>
+        <option value="portrait">Portrait</option>
+        <option value="chibi">Chibi</option>
+        <option value="pixel art">Pixel Art</option>
+        <option value="oil painting">Oil Painting</option>
+        <option value="3d">3D</option>
+      </select>
+      <select id="size">
+        <option value="1:1">1:1 (1024x1024)</option>
+        <option value="3:2">3:2 (1080x720)</option>
+        <option value="2:3">2:3 (720x1080)</option>
+      </select>
+      <button type="submit">Generate</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('generateForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      result.innerHTML = '⏳ Membuat gambar...';
+
+      const prompt = document.getElementById('prompt').value;
+      const style = document.getElementById('style').value;
+      const size = document.getElementById('size').value;
+
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, style, size })
+      });
+
+      const data = await res.json();
+      if (data.url) {
+        result.innerHTML = `<img src="${data.url}" alt="Generated Image" /><p>✅ Berhasil dibuat!</p>`;
+      } else {
+        result.innerHTML = `<p style="color:red;">❌ ${data.error || 'Gagal membuat gambar.'}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
