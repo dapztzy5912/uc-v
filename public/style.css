@@ -1,0 +1,25 @@
+body {
+  font-family: sans-serif;
+  background: #f4f4f4;
+  padding: 30px;
+  text-align: center;
+}
+
+.container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+input, select, button {
+  padding: 10px;
+  margin: 5px;
+  font-size: 1em;
+}
+
+img {
+  max-width: 300px;
+  margin-top: 15px;
+  border-radius: 10px;
+}
